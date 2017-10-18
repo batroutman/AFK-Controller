@@ -82,7 +82,7 @@ int main(int argc, char** argv) {
 	do{
 		
 		std::cout << "Type in the number associated with one of the following modes and press ENTER." << std::endl;
-		std::cout << "TYPE IN INTEGERS ONLY" << std::endl << std::endl;
+		std::cout << "----TYPE IN INTEGERS ONLY----" << std::endl << std::endl;
 		
 		//print modes
 		for(int i = 0; i < NUM_MODES; i++){
@@ -222,7 +222,7 @@ void run(int mode){
 			release(DIK_W);
 			
 			//pause to make loser
-			Sleep(3 * 1000);
+			Sleep(7 * 1000);
 			
 			press(DIK_W);
 			Sleep(30 * 1000);
