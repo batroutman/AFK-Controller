@@ -21,48 +21,57 @@ DEVELOPER'S NOTE: A 180 degreemouse turn on the x axis is dx = 30,000
 #include <cstdlib>
 #include <time.h>
 #include <thread>
+#include <mutex>
 #include <string>
 
 #include "dik.h"
 
 
-//
-// GLOBALS
-//
+/////////////////////
+////   GLOBALS   ////
+/////////////////////
 
 // This structure will be used to create the keyboard
 // input event.
 INPUT ip;
 INPUT mip;
-bool keepGoing = true;
+bool keepGoing = true; //KG for threads
+bool programKG = true; //KG for application
 
-//
-// CONSTANTS
-//
-const int NUM_MODES = 3;
+std::mutex consoleMtx;
 
-std::string MODES[] = {"TIME_IS_MONEY", "TIME_IS_MONEY_LOSER", "BACK_FORTH"};
+/////////////////////
+////  CONSTANTS  ////
+/////////////////////
+const int NUM_MODES = 4;
+std::string MODES[] = {"exit", "TIME_IS_MONEY", "TIME_IS_MONEY_LOSER", "BACK_FORTH"};
 
 
-//
-// HEADERS
-//
+/////////////////////
+////   HEADERS   ////
+/////////////////////
 void initKey();
 void initMouse();
+void menu();
 void moveMouse(long, long);
 void press(int);
 void release(int);
 int getPressTime();
 void run(int);
 void terminator();
+void rest(int);
+void rest(int, bool &);
+void rest(int restTime, int precision);
+void rest(int restTime, int precision, bool &);
 
 
 
 
 
-//
-// MAIN FUNCTION
-//
+////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////             MAIN FUNCTION            /////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+
 int main(int argc, char** argv) {
 	
 	/* initializers */
@@ -71,53 +80,267 @@ int main(int argc, char** argv) {
 	//initialize the INPUT variables
 	initKey();
 	initMouse();
-	int initialDelay = 10000;
-	int mode = 0;
 	
 	//greeting
 	std::cout << "Welcome to the AFK Controller v1.0!" << std::endl;
+	
+	while(programKG){
+		menu();
+	}
+
+	return 0;
+}//end main -------------------------------------------------------------------------------
+
+
+
+
+//menu
+void menu(){
+	
+	//initialize
+	keepGoing = true;
+	int mode = 0;
 	
 	//menu
 	bool localKG = true;
 	do{
 		
+		consoleMtx.lock();
 		std::cout << "Type in the number associated with one of the following modes and press ENTER." << std::endl;
-		std::cout << "----TYPE IN INTEGERS ONLY----" << std::endl << std::endl;
+		std::cout << "---- TYPE IN INTEGERS ONLY ----" << std::endl << std::endl;
 		
 		//print modes
 		for(int i = 0; i < NUM_MODES; i++){
 			std::cout << i << ") " << MODES[i] << std::endl;
 		}
+		consoleMtx.unlock();
 		
 		std::cin >> mode;
 		
 		if(mode < NUM_MODES){
 			localKG = false;
 		}else{
+			consoleMtx.lock();
 			std::cout << "Invalid input." << std::endl;
+			consoleMtx.unlock();
 		}//end if
 		
 	}while(localKG);
 	
+	//if they aren't trying to exit the program:
+	if(mode != 0){
+		//start threads
+		std::thread tTerminator (terminator);
+		std::thread tRun (run, mode);
+		tRun.join();
+		tTerminator.join();
+	}else if(mode == 0){
+		programKG = false;
+		
+		consoleMtx.lock();
+		std::cout << "Exiting program" << std::endl;
+		consoleMtx.unlock();
+	}//end if
 
-	//start threads
-	std::thread tTerminator (terminator);
-	std::thread tRun (run, mode);
+	
+}//end menu
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////             RUN FUNCTION             /////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+
+//thread that will send keyboard input to the game
+void run(int mode){
+	
+	//countdown
+	int seconds = 10;
+	consoleMtx.lock();
+	std::cout << "Mode: " << mode << ". Waiting 10 seconds before procedure starts." << std::endl;
+	std::cout << "Use this time to open your game." << std:: endl;
+	consoleMtx.unlock();
+	
+	for(int i = seconds; i > 0; i--){
+		consoleMtx.lock();
+		std::cout << i << "\t";
+		consoleMtx.unlock();
+		Sleep(1000);
+	}
+	
+	std::cout << std::endl;
+	
+	if(mode == 1){
+		
+		//TIME_IS_MONEY
+		while(keepGoing){
+			
+			if(keepGoing){
+				press(DIK_W);
+				rest(60 * 1000, keepGoing);
+				release(DIK_W);
+			}
+			
+			if(keepGoing){
+				rest(1000 + getPressTime(), keepGoing);
+			}
+			
+			if(keepGoing){
+				press(DIK_S);
+				rest(100 + getPressTime(), keepGoing);
+				release(DIK_S);
+			}
+			
+			if(keepGoing){
+				press(DIK_Z);
+				rest(getPressTime(), keepGoing);
+				release(DIK_Z);
+			}
+			
+			
+			
+		}//end while
+		
+	}else if(mode == 2){
+		
+		//TIME_IS_MONEY_LOSER
+		while(keepGoing){
+			
+			if(keepGoing){
+				press(DIK_W);
+				rest(60 * 1000, keepGoing);
+				release(DIK_W);
+			}
+			
+			if(keepGoing){
+				rest(7000 + getPressTime(), keepGoing);
+			}
+			
+			if(keepGoing){
+				press(DIK_S);
+				rest(100 + getPressTime(), keepGoing);
+				release(DIK_S);
+			}
+
+			if(keepGoing){
+				press(DIK_Z);
+				rest(getPressTime(), keepGoing);
+				release(DIK_Z);
+			}
+
+			
+		}
+		
+	}else if(mode == 3){
+		
+		//BACK_FORTH
+		while(keepGoing){
+			
+			if(keepGoing){
+				press(DIK_W);
+				rest(9 * 1000, keepGoing);
+				release(DIK_W);
+			}
+			
+			//pause
+			if(keepGoing){
+				rest(5 * 1000, keepGoing);
+			}
+			
+			//turn
+			if(keepGoing){
+				moveMouse(30000, 0);
+			}
+			
+			if(keepGoing){
+				press(DIK_Z);
+				rest(getPressTime(), keepGoing);
+				release(DIK_Z);
+			}
+			
+			
+
+		}//end while
+		
+	}//end if
+	
+
 	
 	
-	tRun.join();
-	tTerminator.join();
+}//end run -------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////         TERMINATOR FUNCTION          /////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+
+//thread that gets user input from console and kills current run thread
+void terminator(){
 	
-	std::cout << "Terminating program." << std::endl;
+	consoleMtx.lock();
+	std::cout << "To quit this application, type 'q' and ENTER into this console." << std::endl;
+	consoleMtx.unlock();
+	std::string in;
 	
+	do{
+		
+		std::cin >> in;
+		
+		if(in == "q" || in == "Q" || in == "quit" || true){
+			keepGoing = false;
+			consoleMtx.lock();
+			std::cout << "Thread has been set for termination." << std::endl;
+			std::cout << "Thank you for using AFK Controller!" << std::endl;
+			consoleMtx.unlock();
+		}else{
+			consoleMtx.lock();
+			std::cout << "unrecognized input" << std::endl;
+			std::cout << "press 'q' and ENTER to quit application." << std::endl;
+			consoleMtx.unlock();
+		}
+		
+	}while(keepGoing);
 	
-	return 0;
-}//end main
+	Sleep(1000);
+	
+}//end terminator  ------------------------------------------------------------------------
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////           UTILITY FUNCTIONS          /////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
 
 
 //initializes the INPUT object
@@ -175,111 +398,28 @@ int getPressTime(){
 	return ((rand() % 200) + 1);
 }//end getPressTime
 
+//sleep, but check the value of condition at some interval
+void rest(int restTime, bool & condition){
+	
+	int precision = 100; //in milliseconds
+	while(condition && (restTime > 0)){
+		Sleep(precision);
+		restTime -= 100;
+	}//end while
+	
+}//end rest(int, bool)
 
-//thread that will send keyboard input to the game
-void run(int mode){
+//sleep, but check the value of condition at GIVEN interval
+void rest(int restTime, int precision, bool & condition){
 	
-	//countdown
-	int seconds = 10;
-	std::cout << "Mode: " << mode << ". Waiting 10 seconds before procedure starts." << std::endl;
-	std::cout << "Use this time to open your game." << std:: endl;
+	while(condition && (restTime > 0)){
+		Sleep(precision);
+		restTime -= 100;
+	}//end while
 	
-	for(int i = seconds; i > 0; i--){
-		std::cout << i << "\t";
-		Sleep(1000);
-	}
-	
-	std::cout << std::endl;
-	
-	if(mode == 0){
-		
-		//TIME_IS_MONEY
-		while(keepGoing){
-			press(DIK_W);
-			Sleep(60 * 1000);
-			release(DIK_W);
-			
-			Sleep(1000 + getPressTime());
-			press(DIK_S);
-			Sleep(100 + getPressTime());
-			release(DIK_S);
-			
-			
-			press(DIK_Z);
-			Sleep(getPressTime());
-			release(DIK_Z);
-		}//end while
-		
-	}else if(mode == 1){
-		
-		//TIME_IS_MONEY_LOSER
-		while(keepGoing){
-			press(DIK_W);
-			Sleep(60 * 1000);
-			release(DIK_W);
-			
-			Sleep(7000 + getPressTime());
-			press(DIK_S);
-			Sleep(100 + getPressTime());
-			release(DIK_S);
-			
-			
-			press(DIK_Z);
-			Sleep(getPressTime());
-			release(DIK_Z);
-		}
-		
-	}else if(mode == 2){
-		
-		//BACK_FORTH
-		while(keepGoing){
-			
-			press(DIK_W);
-			Sleep(9 * 1000);
-			release(DIK_W);
-			
-			//pause
-			Sleep(5 * 1000);
-			
-			//turn
-			moveMouse(30000, 0);
-			
-			press(DIK_Z);
-			Sleep(getPressTime());
-			release(DIK_Z);
+}//end rest(int, bool)
 
-		}//end while
-		
-	}//end if
-	
 
-	
-	
-}//end run /////////////////////////////////////////////
-
-//thread that gets user input from console and acts as control for program
-void terminator(){
-	
-	std::cout << "To quit this application, type 'q' and ENTER into this console." << std::endl;
-	std::string in;
-	
-	do{
-		
-		std::cin >> in;
-		
-		if(in == "q" || in == "Q" || in == "quit" || true){
-			keepGoing = false;
-			std::cout << "Application has been set for termination." << std::endl;
-			std::cout << "Please allow at most approx. 1 minute for the application to gracefully terminate the active thread." << std::endl;
-			std::cout << "Thank you for using AFK Controller!" << std::endl;
-		}else{
-			std::cout << "unrecognized input" << std::endl;
-			std::cout << "press 'q' and ENTER to quit application." << std::endl;
-		}
-		
-	}while(keepGoing);
-	
-}//end terminator
 
 
 
