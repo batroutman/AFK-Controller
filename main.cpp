@@ -82,7 +82,7 @@ int main(int argc, char** argv) {
 	do{
 		
 		std::cout << "Type in the number associated with one of the following modes and press ENTER." << std::endl;
-		std::cout << "TYPE IN INTEGERS ONLY" << std::endl << std::endl;
+		std::cout << "----TYPE IN INTEGERS ONLY----" << std::endl << std::endl;
 		
 		//print modes
 		for(int i = 0; i < NUM_MODES; i++){
@@ -215,7 +215,18 @@ void run(int mode){
 		//TIME_IS_MONEY_LOSER
 		while(keepGoing){
 			press(DIK_W);
+<<<<<<< HEAD
 			Sleep(60 * 1000);
+=======
+			Sleep(30 * 1000);
+			release(DIK_W);
+			
+			//pause to make loser
+			Sleep(7 * 1000);
+			
+			press(DIK_W);
+			Sleep(30 * 1000);
+>>>>>>> b205cbd66fdba7c81e3d4a5216b6c93510cfd82b
 			release(DIK_W);
 			
 			Sleep(7000 + getPressTime());
