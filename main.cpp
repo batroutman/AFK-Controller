@@ -199,14 +199,11 @@ void run(int mode){
 			Sleep(60 * 1000);
 			release(DIK_W);
 			
-			int sideTime = getPressTime();
-			press(DIK_A);
-			Sleep(sideTime);
-			release(DIK_A);
+			Sleep(1000 + getPressTime());
+			press(DIK_S);
+			Sleep(250 + getPressTime());
+			release(DIK_S);
 			
-			press(DIK_D);
-			Sleep(sideTime);
-			release(DIK_D);
 			
 			press(DIK_Z);
 			Sleep(getPressTime());
@@ -218,24 +215,14 @@ void run(int mode){
 		//TIME_IS_MONEY_LOSER
 		while(keepGoing){
 			press(DIK_W);
-			Sleep(30 * 1000);
+			Sleep(60 * 1000);
 			release(DIK_W);
 			
-			//pause to make loser
-			Sleep(3 * 1000);
+			Sleep(7000 + getPressTime());
+			press(DIK_S);
+			Sleep(250 + getPressTime());
+			release(DIK_S);
 			
-			press(DIK_W);
-			Sleep(30 * 1000);
-			release(DIK_W);
-			
-			int sideTime = getPressTime();
-			press(DIK_A);
-			Sleep(sideTime);
-			release(DIK_A);
-			
-			press(DIK_D);
-			Sleep(sideTime);
-			release(DIK_D);
 			
 			press(DIK_Z);
 			Sleep(getPressTime());
