@@ -4,13 +4,20 @@ Blake Troutman 2017
 AFK Controller
 
 
-Simple application that send key scans somewhat randomly every minute or so.
-This is intended to be used with Grand Theft Auto V to allow SecuroServ associates to 
-maintain their wage payments while being AFK.
+Simple application that sends seemingly dynamic key scans to DirectX games (in foreground).
+This is intended to be used with Grand Theft Auto V (PC) to allow AFK farming to persist without
+being easily detectable.
+
+You can search for AFK farming playlists on reddit and build a profile for it here by taking
+the following steps:
+
+1) increment the constant NUM_MODES.
+2) append the string name of your mode to the constant MODES[]
+3) append your algorithm to the if-branch in the run function, under "ADD MODES HERE"
 
 Configure to your desire.
 
-DEVELOPER'S NOTE: A 180 degreemouse turn on the x axis is dx = 30,000
+DEVELOPER'S NOTE: A 180 degreemouse turn on the x axis is dx ~ 30,000
 
 */
 
@@ -24,6 +31,7 @@ DEVELOPER'S NOTE: A 180 degreemouse turn on the x axis is dx = 30,000
 #include <mutex>
 #include <string>
 
+//for the scan codes
 #include "dik.h"
 
 
@@ -59,9 +67,7 @@ void release(int);
 int getPressTime();
 void run(int);
 void terminator();
-void rest(int);
 void rest(int, bool &);
-void rest(int restTime, int precision);
 void rest(int restTime, int precision, bool &);
 
 
@@ -178,6 +184,10 @@ void run(int mode){
 	
 	std::cout << std::endl;
 	
+	
+	/////////////////////////
+	///  ADD MODES HERE   ///
+	/////////////////////////
 	if(mode == 1){
 		
 		//TIME_IS_MONEY
@@ -294,7 +304,7 @@ void run(int mode){
 void terminator(){
 	
 	consoleMtx.lock();
-	std::cout << "To quit this application, type 'q' and ENTER into this console." << std::endl;
+	std::cout << "To quit this application, type something into the console and press ENTER." << std::endl;
 	consoleMtx.unlock();
 	std::string in;
 	
