@@ -51,8 +51,8 @@ std::mutex consoleMtx;
 /////////////////////
 ////  CONSTANTS  ////
 /////////////////////
-const int NUM_MODES = 4;
-std::string MODES[] = {"exit", "TIME_IS_MONEY", "TIME_IS_MONEY_LOSER", "BACK_FORTH"};
+const int NUM_MODES = 5;
+std::string MODES[] = {"exit", "TIME_IS_MONEY", "TIME_IS_MONEY_LOSER", "BACK_FORTH", "DOODLE_JUMP"};
 
 
 /////////////////////
@@ -62,6 +62,9 @@ void initKey();
 void initMouse();
 void menu();
 void moveMouse(long, long);
+void moveMouseTo(long, long);
+void clickMouse();
+void releaseMouse();
 void press(int);
 void release(int);
 int getPressTime();
@@ -280,6 +283,70 @@ void run(int mode){
 
 		}//end while
 		
+	}else if(mode == 4){
+	
+		//DOODLE_JUMP
+		while(keepGoing){
+			
+			
+			
+			//feed
+			if(keepGoing){
+				moveMouseTo(1747, 205);
+				clickMouse();
+				releaseMouse();
+				rest(7000, keepGoing);
+			}
+			
+			//try to train n times
+			for(int i = 0; i < 10; i++){
+				
+				//chat button
+				if(keepGoing){
+					moveMouseTo(95, 53);
+					clickMouse();
+					releaseMouse();
+					rest(250, keepGoing);
+				}
+				
+				//into menu
+				if(keepGoing){
+					moveMouseTo(180, 51);
+					rest(500, keepGoing);
+				}
+				
+				//pets
+				if(keepGoing){
+					moveMouseTo(190, 193);
+					rest(500, keepGoing);
+				}
+				
+				//tricks
+				if(keepGoing){
+					moveMouseTo(368, 192);
+					rest(500, keepGoing);
+				}
+				
+				//jump
+				if(keepGoing){
+					moveMouseTo(472, 194);
+					rest(500, keepGoing);
+					clickMouse();
+					releaseMouse();
+				}
+				
+				//rest before trying again
+				rest(3000, keepGoing);
+				
+			}
+			
+			//rest to give buffer time to halt program
+			rest(5000, keepGoing);
+			
+			
+			
+		}//end while
+	
 	}//end if
 	
 
@@ -382,9 +449,31 @@ void moveMouse(long x, long y){
 	
 	mip.mi.dx = x;
 	mip.mi.dy = y;
+	mip.mi.dwFlags = MOUSEEVENTF_MOVE;
 	SendInput(1, &mip, sizeof(INPUT));
 	
 }//end moveMouse
+
+void moveMouseTo(long x, long y){
+	
+	long ndx = (x / 1920.0) * 65535;
+	long ndy = (y / 1080.0) * 65535;
+	mip.mi.dx = ndx;
+	mip.mi.dy = ndy;
+	mip.mi.dwFlags = MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE;
+	SendInput(1, &mip, sizeof(INPUT));
+	
+}//end moveMouse
+
+void clickMouse(){
+	mip.mi.dwFlags = MOUSEEVENTF_LEFTDOWN;
+	SendInput(1, &mip, sizeof(INPUT));
+}//end clickMouse
+
+void releaseMouse(){
+	mip.mi.dwFlags = MOUSEEVENTF_LEFTUP;
+	SendInput(1, &mip, sizeof(INPUT));
+}//end releaseMouse
 
 //sets the ip keycod to keyConst and presses it
 void press(int keyConst){
