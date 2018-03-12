@@ -206,6 +206,13 @@ void run(int mode){
 				rest(1000 + getPressTime(), keepGoing);
 			}
 			
+			//add a mouse click to correct for bug in Dell Inspiron 1700s
+			if(keepGoing){
+				clickMouse();
+				releaseMouse();
+				rest(1000 + getPressTime(), keepGoing);
+			}
+			
 			if(keepGoing){
 				press(DIK_S);
 				rest(100 + getPressTime(), keepGoing);
@@ -234,7 +241,14 @@ void run(int mode){
 			}
 			
 			if(keepGoing){
-				rest(7000 + getPressTime(), keepGoing);
+				rest(6000 + getPressTime(), keepGoing);
+			}
+			
+			//add a mouse click to correct for bug in Dell Inspiron 1700s
+			if(keepGoing){
+				clickMouse();
+				releaseMouse();
+				rest(2000 + getPressTime(), keepGoing);
 			}
 			
 			if(keepGoing){
@@ -261,6 +275,13 @@ void run(int mode){
 				press(DIK_W);
 				rest(9 * 1000, keepGoing);
 				release(DIK_W);
+			}
+			
+			//add a mouse click to correct for bug in Dell Inspiron 1700s
+			if(keepGoing){
+				clickMouse();
+				releaseMouse();
+				rest(1000 + getPressTime(), keepGoing);
 			}
 			
 			//pause
@@ -295,7 +316,7 @@ void run(int mode){
 				moveMouseTo(1747, 205);
 				clickMouse();
 				releaseMouse();
-				rest(7000, keepGoing);
+				rest(10000, keepGoing);
 			}
 			
 			//try to train n times
@@ -336,7 +357,7 @@ void run(int mode){
 				}
 				
 				//rest before trying again
-				rest(3000, keepGoing);
+				rest(4000, keepGoing);
 				
 			}
 			
