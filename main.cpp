@@ -206,9 +206,10 @@ void run(int mode){
 				rest(1000 + getPressTime(), keepGoing);
 			}
 			
-			//add a mouse click to correct for bug in Dell Inspiron 1700s
+			//add a mouse click to correct for bug in Dell Inspiron 7000s
 			if(keepGoing){
 				clickMouse();
+				rest(500, keepGoing);
 				releaseMouse();
 				rest(1000 + getPressTime(), keepGoing);
 			}
@@ -244,9 +245,10 @@ void run(int mode){
 				rest(6000 + getPressTime(), keepGoing);
 			}
 			
-			//add a mouse click to correct for bug in Dell Inspiron 1700s
+			//add a mouse click to correct for bug in Dell Inspiron 7000s
 			if(keepGoing){
 				clickMouse();
+				rest(500, keepGoing);
 				releaseMouse();
 				rest(2000 + getPressTime(), keepGoing);
 			}
