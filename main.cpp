@@ -198,7 +198,7 @@ void run(int mode){
 			
 			if(keepGoing){
 				press(DIK_W);
-				rest(50 * 1000, keepGoing);
+				rest(65 * 1000, keepGoing);
 				release(DIK_W);
 			}
 			
@@ -247,12 +247,12 @@ void run(int mode){
 			
 			if(keepGoing){
 				press(DIK_W);
-				rest(60 * 1000, keepGoing);
+				rest(50 * 1000, keepGoing);
 				release(DIK_W);
 			}
 			
 			if(keepGoing){
-				rest(2000 + getPressTime(), keepGoing);
+				rest(4000 + getPressTime(), keepGoing);
 			}
 			
 			//add a mouse click to correct for bug in Dell Inspiron 7000s
@@ -270,7 +270,7 @@ void run(int mode){
 			}
 			
 			if(keepGoing){
-				rest(3000 + getPressTime(), keepGoing);
+				rest(5000 + getPressTime(), keepGoing);
 			}
 			
 			if(keepGoing){
