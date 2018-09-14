@@ -518,7 +518,7 @@ void releaseMouse(){
 	SendInput(1, &mip, sizeof(INPUT));
 }//end releaseMouse
 
-//sets the ip keycod to keyConst and presses it
+//sets the ip keycode to keyConst and presses it
 void press(int keyConst){
 	
 	ip.ki.wScan = keyConst;
