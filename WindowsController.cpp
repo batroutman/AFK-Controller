@@ -9,6 +9,7 @@ Implementation of WindowsController object. See WindowsController.h for details.
 */
 
 
+#include <iostream>
 
 #include "WindowsController.h"
 #include "dik.h"
@@ -106,5 +107,24 @@ void WindowsController::moveMouseTo(long x, long y)
 	
 }
 
+
+//click this left mouse button at whatever location the mouse is at
+void WindowsController::clickMouse()
+{
+	
+	this->mip.mi.dwFlags = MOUSEEVENTF_LEFTDOWN;
+	SendInput(1, &mip, sizeof(INPUT));
+	
+}
+
+
+//release the left mouse button wherever the mouse is at
+void WindowsController::releaseMouse()
+{
+	
+	this->mip.mi.dwFlags = MOUSEEVENTF_LEFTUP;
+	SendInput(1, &mip, sizeof(INPUT));
+	
+};
 
 
