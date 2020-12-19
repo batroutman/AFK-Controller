@@ -52,7 +52,7 @@ std::mutex consoleMtx;
 ////  CONSTANTS  ////
 /////////////////////
 const int NUM_MODES = 5;
-std::string MODES[] = {"exit", "TIME_IS_MONEY", "TIME_IS_MONEY_LOSER", "BACK_FORTH", "DOODLE_JUMP"};
+std::string MODES[] = {"exit", "TIME_IS_MONEY", "TIME_IS_MONEY_LOSER", "BACK_FORTH", "DOODLE_PLAY_DEAD"};
 
 
 /////////////////////
@@ -67,11 +67,16 @@ void clickMouse();
 void releaseMouse();
 void press(int);
 void release(int);
+void press(int, bool &);
+void release(int, bool &);
 int getPressTime();
 void run(int);
 void terminator();
 void rest(int, bool &);
 void rest(int restTime, int precision, bool &);
+
+void timeIsMoneyWinner(bool &);
+void timeIsMoneyLoser(bool &);
 
 
 
@@ -193,100 +198,11 @@ void run(int mode){
 	/////////////////////////
 	if(mode == 1){
 		
-		//TIME_IS_MONEY
-		while(keepGoing){
-			
-			if(keepGoing){
-				press(DIK_W);
-				rest(65 * 1000, keepGoing);
-				release(DIK_W);
-			}
-			
-			if(keepGoing){
-				rest(2000 + getPressTime(), keepGoing);
-			}
-			
-			//add a mouse click to correct for bug in Dell Inspiron 7000s
-			if(keepGoing){
-				clickMouse();
-				rest(500, keepGoing);
-				releaseMouse();
-				rest(2000 + getPressTime(), keepGoing);
-			}
-			
-			if(keepGoing){
-				press(DIK_W);
-				rest(3 * 1000, keepGoing);
-				release(DIK_W);
-			}
-			
-			if(keepGoing){
-				rest(2000 + getPressTime(), keepGoing);
-			}
-			
-			if(keepGoing){
-				press(DIK_S);
-				rest(100 + getPressTime(), keepGoing);
-				release(DIK_S);
-			}
-			
-			if(keepGoing){
-				press(DIK_Z);
-				rest(getPressTime(), keepGoing);
-				release(DIK_Z);
-			}
-			
-			
-			
-		}//end while
+		timeIsMoneyWinner(keepGoing);
 		
 	}else if(mode == 2){
 		
-		//TIME_IS_MONEY_LOSER
-		while(keepGoing){
-			
-			if(keepGoing){
-				press(DIK_W);
-				rest(50 * 1000, keepGoing);
-				release(DIK_W);
-			}
-			
-			if(keepGoing){
-				rest(4000 + getPressTime(), keepGoing);
-			}
-			
-			//add a mouse click to correct for bug in Dell Inspiron 7000s
-			if(keepGoing){
-				clickMouse();
-				rest(500, keepGoing);
-				releaseMouse();
-				rest(2000 + getPressTime(), keepGoing);
-			}
-			
-			if(keepGoing){
-				press(DIK_W);
-				rest(3 * 1000, keepGoing);
-				release(DIK_W);
-			}
-			
-			if(keepGoing){
-				rest(5000 + getPressTime(), keepGoing);
-			}
-			
-			if(keepGoing){
-				press(DIK_S);
-				rest(100 + getPressTime(), keepGoing);
-				release(DIK_S);
-			}
-
-			if(keepGoing){
-				press(DIK_Z);
-				rest(getPressTime(), keepGoing);
-				release(DIK_Z);
-			}
-
-			
-		}
+		timeIsMoneyLoser(keepGoing);
 		
 	}else if(mode == 3){
 		
@@ -360,19 +276,19 @@ void run(int mode){
 				
 				//pets
 				if(keepGoing){
-					moveMouseTo(190, 193);
+					moveMouseTo(234, 164);
 					rest(500, keepGoing);
 				}
 				
 				//tricks
 				if(keepGoing){
-					moveMouseTo(368, 192);
+					moveMouseTo(392, 159);
 					rest(500, keepGoing);
 				}
 				
-				//jump
+				//play dead
 				if(keepGoing){
-					moveMouseTo(472, 194);
+					moveMouseTo(526, 194);
 					rest(500, keepGoing);
 					clickMouse();
 					releaseMouse();
@@ -398,8 +314,68 @@ void run(int mode){
 }//end run -------------------------------------------------------------------------------
 
 
+////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////         PROFILE FUNCTIONS          //////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+void timeIsMoneyWinner(bool & keepGoing) {
+	
+	while (keepGoing) {
+		
+		// sprint (ratio is 1:2)
+		press(DIK_LSHIFT, keepGoing);
+		press(DIK_W, keepGoing);
+		rest(5000, keepGoing);
+		release(DIK_W, keepGoing);
+		release(DIK_LSHIFT, keepGoing);
+		
+		// cooldown
+		rest(1000, keepGoing);
+		
+		// stealth (crouch) walk
+		press(DIK_LCONTROL, keepGoing);
+		press(DIK_W, keepGoing);
+		rest(10000, keepGoing);
+		release(DIK_W, keepGoing);
+		release(DIK_LCONTROL, keepGoing);
+		
+		// cooldown
+		rest(1000, keepGoing);
+		press(DIK_Z, keepGoing);
+		release(DIK_Z, keepGoing);
+		
+	}
+	
+}
 
-
+void timeIsMoneyLoser(bool & keepGoing) {
+	
+	while (keepGoing) {
+		
+		// sprint (ratio is 1:2)
+		press(DIK_LSHIFT, keepGoing);
+		press(DIK_W, keepGoing);
+		rest(3000, keepGoing);
+		release(DIK_W, keepGoing);
+		release(DIK_LSHIFT, keepGoing);
+		
+		// cooldown
+		rest(1000, keepGoing);
+		
+		// stealth (crouch) walk
+		press(DIK_LCONTROL, keepGoing);
+		press(DIK_W, keepGoing);
+		rest(12000, keepGoing);
+		release(DIK_W, keepGoing);
+		release(DIK_LCONTROL, keepGoing);
+		
+		// cooldown
+		rest(1000, keepGoing);
+		press(DIK_Z, keepGoing);
+		release(DIK_Z, keepGoing);
+		
+	}
+	
+}
 
 
 
@@ -440,16 +416,6 @@ void terminator(){
 	Sleep(1000);
 	
 }//end terminator  ------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -527,12 +493,34 @@ void press(int keyConst){
 	
 }//end press
 
+//sets the ip keycode to keyConst and presses it
+void press(int keyConst, bool & condition){
+	
+	ip.ki.wScan = keyConst;
+	ip.ki.dwFlags = KEYEVENTF_SCANCODE;
+	if (condition) {
+		SendInput(1, &ip, sizeof(INPUT));
+	}
+	
+}//end press
+
 //sets ip keycode and releases
 void release(int keyConst){
 	
 	ip.ki.wScan = keyConst;
 	ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
     SendInput(1, &ip, sizeof(INPUT));
+	
+}//end release
+
+//sets ip keycode and releases
+void release(int keyConst, bool & condition){
+	
+	ip.ki.wScan = keyConst;
+	ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
+	if (condition) {
+		SendInput(1, &ip, sizeof(INPUT));
+	}
 	
 }//end release
 

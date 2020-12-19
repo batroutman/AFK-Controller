@@ -30,6 +30,14 @@ class Profile {
 		// listens to the console for key input to end the run thread
 		void terminator();
 		
+		// getters and setters for pause/stop
+		void pause();
+		void resume();
+		void stop();
+		void reset();
+		bool isPaused();
+		bool isStopped();
+		
 	protected:
 		
 		// member variables
