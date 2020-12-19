@@ -77,7 +77,7 @@ void rest(int restTime, int precision, bool &);
 
 void timeIsMoneyWinner(bool &);
 void timeIsMoneyLoser(bool &);
-
+void test(bool & keepGoing);
 
 
 
@@ -324,30 +324,18 @@ void timeIsMoneyWinner(bool & keepGoing) {
 		// sprint 
 		press(DIK_LSHIFT, keepGoing);
 		press(DIK_W, keepGoing);
-		rest(2000, keepGoing);
+		rest(9000, keepGoing);
 		release(DIK_W, keepGoing);
 		release(DIK_LSHIFT, keepGoing);
 		
-		// cooldown
-		rest(1000, keepGoing);
-		
-		// stealth (crouch) walk
-		press(DIK_LCONTROL, keepGoing);
-		rest(400, keepGoing);
-		release(DIK_LCONTROL, keepGoing);
-		press(DIK_W, keepGoing);
-		rest(13000, keepGoing);
-		release(DIK_W, keepGoing);
-		press(DIK_LCONTROL, keepGoing);
-		rest(250, keepGoing);
-		release(DIK_LCONTROL, keepGoing);
-		
 		
 		// cooldown
-		rest(1000, keepGoing);
+		rest(10000, keepGoing);
 		press(DIK_Z, keepGoing);
 		rest(getPressTime(), keepGoing);
 		release(DIK_Z, keepGoing);
+		
+		rest(20000, keepGoing);
 		
 	}
 	
@@ -357,36 +345,33 @@ void timeIsMoneyLoser(bool & keepGoing) {
 	
 	while (keepGoing) {
 		
-		// sprint (ratio is 1:2)
+		// sprint 
 		press(DIK_LSHIFT, keepGoing);
 		press(DIK_W, keepGoing);
-		rest(2000, keepGoing);
+		rest(6000, keepGoing);
 		release(DIK_W, keepGoing);
 		release(DIK_LSHIFT, keepGoing);
 		
-		// cooldown
-		rest(1000, keepGoing);
-		
-		// stealth (crouch) walk
-		press(DIK_LCONTROL, keepGoing);
-		rest(400, keepGoing);
-		release(DIK_LCONTROL, keepGoing);
-		press(DIK_W, keepGoing);
-		rest(18000, keepGoing);
-		release(DIK_W, keepGoing);
-		press(DIK_LCONTROL, keepGoing);
-		rest(250, keepGoing);
-		release(DIK_LCONTROL, keepGoing);
-		
 		
 		// cooldown
-		rest(5000, keepGoing);
+		rest(10000, keepGoing);
 		press(DIK_Z, keepGoing);
 		rest(getPressTime(), keepGoing);
 		release(DIK_Z, keepGoing);
 		
+		rest(20000, keepGoing);
+		
 	}
 	
+}
+
+void test(bool & keepGoing) {
+	press(DIK_LSHIFT, keepGoing);
+	press(DIK_W, keepGoing);
+	rest(1000, keepGoing);
+	release(DIK_W, keepGoing);
+	release(DIK_LSHIFT, keepGoing);
+	keepGoing = false;
 }
 
 
@@ -520,7 +505,7 @@ void press(int keyConst, bool & condition){
 void release(int keyConst){
 	
 	ip.ki.wScan = keyConst;
-	ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
+	ip.ki.dwFlags = KEYEVENTF_KEYUP | KEYEVENTF_SCANCODE; // KEYEVENTF_KEYUP for key release
     SendInput(1, &ip, sizeof(INPUT));
 	
 }//end release
@@ -529,7 +514,7 @@ void release(int keyConst){
 void release(int keyConst, bool & condition){
 	
 	ip.ki.wScan = keyConst;
-	ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
+	ip.ki.dwFlags = KEYEVENTF_KEYUP | KEYEVENTF_SCANCODE; // KEYEVENTF_KEYUP for key release
 	if (condition) {
 		SendInput(1, &ip, sizeof(INPUT));
 	}

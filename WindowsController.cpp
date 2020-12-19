@@ -78,7 +78,7 @@ void WindowsController::releaseKey(int keyConst)
 {
 	
 	this->ip.ki.wScan = keyConst;
-	this->ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
+	this->ip.ki.dwFlags = KEYEVENTF_KEYUP | KEYEVENTF_SCANCODE; // KEYEVENTF_KEYUP for key release
     SendInput(1, &ip, sizeof(INPUT));
 	
 }
