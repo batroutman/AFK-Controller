@@ -321,10 +321,10 @@ void timeIsMoneyWinner(bool & keepGoing) {
 	
 	while (keepGoing) {
 		
-		// sprint (ratio is 1:2)
+		// sprint 
 		press(DIK_LSHIFT, keepGoing);
 		press(DIK_W, keepGoing);
-		rest(5000, keepGoing);
+		rest(2000, keepGoing);
 		release(DIK_W, keepGoing);
 		release(DIK_LSHIFT, keepGoing);
 		
@@ -333,14 +333,20 @@ void timeIsMoneyWinner(bool & keepGoing) {
 		
 		// stealth (crouch) walk
 		press(DIK_LCONTROL, keepGoing);
-		press(DIK_W, keepGoing);
-		rest(10000, keepGoing);
-		release(DIK_W, keepGoing);
+		rest(400, keepGoing);
 		release(DIK_LCONTROL, keepGoing);
+		press(DIK_W, keepGoing);
+		rest(13000, keepGoing);
+		release(DIK_W, keepGoing);
+		press(DIK_LCONTROL, keepGoing);
+		rest(250, keepGoing);
+		release(DIK_LCONTROL, keepGoing);
+		
 		
 		// cooldown
 		rest(1000, keepGoing);
 		press(DIK_Z, keepGoing);
+		rest(getPressTime(), keepGoing);
 		release(DIK_Z, keepGoing);
 		
 	}
@@ -354,7 +360,7 @@ void timeIsMoneyLoser(bool & keepGoing) {
 		// sprint (ratio is 1:2)
 		press(DIK_LSHIFT, keepGoing);
 		press(DIK_W, keepGoing);
-		rest(3000, keepGoing);
+		rest(2000, keepGoing);
 		release(DIK_W, keepGoing);
 		release(DIK_LSHIFT, keepGoing);
 		
@@ -363,14 +369,20 @@ void timeIsMoneyLoser(bool & keepGoing) {
 		
 		// stealth (crouch) walk
 		press(DIK_LCONTROL, keepGoing);
+		rest(400, keepGoing);
+		release(DIK_LCONTROL, keepGoing);
 		press(DIK_W, keepGoing);
-		rest(12000, keepGoing);
+		rest(18000, keepGoing);
 		release(DIK_W, keepGoing);
+		press(DIK_LCONTROL, keepGoing);
+		rest(250, keepGoing);
 		release(DIK_LCONTROL, keepGoing);
 		
+		
 		// cooldown
-		rest(1000, keepGoing);
+		rest(5000, keepGoing);
 		press(DIK_Z, keepGoing);
+		rest(getPressTime(), keepGoing);
 		release(DIK_Z, keepGoing);
 		
 	}
