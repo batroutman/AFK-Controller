@@ -51,8 +51,8 @@ std::mutex consoleMtx;
 /////////////////////
 ////  CONSTANTS  ////
 /////////////////////
-const int NUM_MODES = 5;
-std::string MODES[] = {"exit", "TIME_IS_MONEY", "TIME_IS_MONEY_LOSER", "BACK_FORTH", "DOODLE_PLAY_DEAD"};
+const int NUM_MODES = 6;
+std::string MODES[] = {"exit", "TIME_IS_MONEY", "TIME_IS_MONEY_LOSER", "BACK_FORTH", "DOODLE_PLAY_DEAD", "ZOMBIES_BACK_FORTH"};
 
 
 /////////////////////
@@ -78,6 +78,7 @@ void rest(int restTime, int precision, bool &);
 void timeIsMoneyWinner(bool &);
 void timeIsMoneyLoser(bool &);
 void test(bool & keepGoing);
+void zombiesBackForth(bool & keepGoing);
 
 
 
@@ -306,6 +307,10 @@ void run(int mode){
 			
 		}//end while
 	
+	} else if (mode == 5) {
+		
+		zombiesBackForth(keepGoing);
+		
 	}//end if
 	
 
@@ -360,6 +365,26 @@ void timeIsMoneyLoser(bool & keepGoing) {
 		release(DIK_Z, keepGoing);
 		
 		rest(20000, keepGoing);
+		
+	}
+	
+}
+
+void zombiesBackForth(bool & keepGoing) {
+	
+	while(keepGoing) {
+		
+		// move forward
+		press(DIK_W, keepGoing);
+		rest(2000, keepGoing);
+		release(DIK_W, keepGoing);
+		
+		// pause
+		rest(3000, keepGoing);
+		
+		// turn around
+		moveMouse(30000, 0);
+		
 		
 	}
 	

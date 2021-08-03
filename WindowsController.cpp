@@ -15,7 +15,6 @@ Implementation of WindowsController object. See WindowsController.h for details.
 #include "dik.h"
 
 
-
 //default constructor
 WindowsController::WindowsController(): Controller(), ip(), mip()
 {
