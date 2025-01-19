@@ -51,8 +51,8 @@ std::mutex consoleMtx;
 /////////////////////
 ////  CONSTANTS  ////
 /////////////////////
-const int NUM_MODES = 6;
-std::string MODES[] = {"exit", "TIME_IS_MONEY", "TIME_IS_MONEY_LOSER", "BACK_FORTH", "DOODLE_PLAY_DEAD", "ZOMBIES_BACK_FORTH"};
+const int NUM_MODES = 7;
+std::string MODES[] = {"exit", "TIME_IS_MONEY", "TIME_IS_MONEY_LOSER", "BACK_FORTH", "DOODLE_PLAY_DEAD", "ZOMBIES_BACK_FORTH", "LEGO_FORTNITE"};
 
 
 /////////////////////
@@ -79,6 +79,7 @@ void timeIsMoneyWinner(bool &);
 void timeIsMoneyLoser(bool &);
 void test(bool & keepGoing);
 void zombiesBackForth(bool & keepGoing);
+void legoFortnite(bool & keepGoing);
 
 
 
@@ -311,7 +312,11 @@ void run(int mode){
 		
 		zombiesBackForth(keepGoing);
 		
-	}//end if
+	} else if (mode == 6) {
+        
+        legoFortnite(keepGoing);
+        
+    }//end if
 	
 
 	
@@ -385,6 +390,36 @@ void zombiesBackForth(bool & keepGoing) {
 		// turn around
 		moveMouse(30000, 0);
 		
+		
+	}
+	
+}
+
+void legoFortnite(bool & keepGoing) {
+	
+	while(keepGoing) {
+        
+        // mouse move]
+        long xMove = (rand() % 800) - 400;
+        long yMove = (rand() % 200) - 100;
+        moveMouse(xMove, yMove);
+        rest(getPressTime(), keepGoing);
+        
+        // build menu open
+        press(DIK_Q, keepGoing);
+        rest(getPressTime(), keepGoing);
+        release(DIK_Q, keepGoing);
+        
+        // wait
+        rest(5000 + getPressTime(), keepGoing);
+        
+        // build menu close
+        press(DIK_Q, keepGoing);
+        rest(getPressTime(), keepGoing);
+        release(DIK_Q, keepGoing);
+		
+		// pause
+		rest(10000 + getPressTime(), keepGoing);
 		
 	}
 	

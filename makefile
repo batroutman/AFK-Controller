@@ -3,6 +3,8 @@
 #
 # makefile for AFK Controller
 #
+main.exe: main.cpp
+	g++ --std=c++11 main.cpp -o main.exe
 
 testbed.exe: testbed.cpp WindowsController.o 
 	g++ WindowsController.o testbed.cpp -o testbed.exe
@@ -16,3 +18,6 @@ clean:
 
 runtest: testbed.exe
 	./testbed.exe
+
+run: main.exe
+	./main.exe
